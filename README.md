@@ -78,11 +78,9 @@ python scripts/check_repro_assets.py --stage avatar --subject-id 00016 --avatar-
 
 ## 3. Pretrained Checkpoints
 
-For direct testing, download the released checkpoints and place them as follows:
+For direct testing, download the released checkpoints from [Google Drive](https://drive.google.com/drive/folders/1ElYtuSKnU7DtaxoVx32Ir9XWixmENBKx?usp=drive_link).
 
-- HPFS motion checkpoint: `TODO: add download link`
-- SMPL-X autoencoder checkpoint for FGD/Diversity/L1div: `TODO: add download link`
-- Avatar rendering checkpoint: `TODO: add download link`
+Place the downloaded files as follows:
 
 ```text
 motion_generation/checkpoints/hpfs_final.pt
@@ -90,15 +88,13 @@ motion_generation/checkpoints/autoencoder_smplx.bin
 avatar_rendering/output/model_dump/<avatar_id>/best.pth
 ```
 
-Optional checkpoints for reproducing ablation or baseline tables can be placed at:
+If the avatar checkpoint is downloaded with a subject-specific name, copy or rename it to `best.pth` under the corresponding `<avatar_id>` folder before testing.
 
-```text
-motion_generation/checkpoints/pfs_smplx_baseline.pt
-motion_generation/checkpoints/hpfs_no_router_reg.pt
-motion_generation/checkpoints/hpfs_no_part_loss.pt
-```
+The SMPL-X autoencoder checkpoint is trained following the autoencoder training code and FGD-style evaluation protocol of MMoFusion, using the 265-D SMPL-X pose-and-expression representation in `motion_generation/mydiffusion/configs/autoencoder_smplx.yml`. It is used only for feature-space evaluation metrics such as FGD, Diversity, and L1div.
 
-## 4. Test Motion Generation
+## 4. Test
+
+### 4.1 Motion Generation
 
 Edit the paths in `motion_generation/mydiffusion/configs/hpfs_final.yml` if needed, then run:
 
@@ -113,13 +109,16 @@ Metrics are saved to:
 motion_generation/mydiffusion/outputs/sample_dir_hpfs_final_whole/metrics_latest.json
 ```
 
-Evaluate optional baselines or ablations:
+### 4.2 Avatar Rendering
+
+Place the avatar checkpoint at `avatar_rendering/output/model_dump/<subject_id>/best.pth`, then run:
 
 ```bash
-python sample_linear.py --config ./configs/pfs_smplx_baseline.yml --gpu 0 --dataset BEAT
-python sample_linear.py --config ./configs/hpfs_no_router_reg.yml --gpu 0 --dataset BEAT
-python sample_linear.py --config ./configs/hpfs_no_part_loss.yml --gpu 0 --dataset BEAT
+cd /path/to/HPFS_Avatar/avatar_rendering/main
+CUDA_VISIBLE_DEVICES=0 python test.py --subject_id 00016 --test_epoch best
 ```
+
+Rendered test images and meshes are saved under `avatar_rendering/output/result/<subject_id>/test/`.
 
 ## 5. Train Motion Generation
 
@@ -170,12 +169,11 @@ python custom2motion.py --config ./configs/custom_smplx.yml --gpu 0 --dataset BE
 
 ## 7. Avatar Rendering
 
-Train or test an avatar on X-Humans:
+Train an avatar on X-Humans:
 
 ```bash
 cd /path/to/HPFS_Avatar/avatar_rendering/main
 CUDA_VISIBLE_DEVICES=0 python train.py --subject_id 00016
-CUDA_VISIBLE_DEVICES=0 python test.py --subject_id 00016 --test_epoch best
 ```
 
 Convert generated HPFS SMPL-X `.npz` motion to the renderer motion format:
