@@ -1,0 +1,72 @@
+# Python/cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Environments/editor
+.venv/
+.env
+*.swp
+.vscode/
+.idea/
+scripts/link_local_assets.sh
+
+# Model checkpoints and learned weights
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.safetensors
+
+# Processed datasets and generated arrays
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.sav
+
+# Media/results
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Motion-generation local artifacts
+motion_generation/data/*
+!motion_generation/data/.gitkeep
+!motion_generation/data/stats/
+!motion_generation/data/stats/.gitkeep
+motion_generation/checkpoints/*
+!motion_generation/checkpoints/.gitkeep
+motion_generation/outputs/
+motion_generation/mydiffusion/outputs/
+motion_generation/render_outputs/
+motion_generation/render_inputs/
+
+# Avatar-rendering local artifacts
+avatar_rendering/data/XHumans/data/*
+avatar_rendering/data/*
+!avatar_rendering/data/.gitkeep
+!avatar_rendering/data/XHumans/
+!avatar_rendering/data/XHumans/XHumans.py
+!avatar_rendering/data/XHumans/data/
+!avatar_rendering/data/XHumans/data/.gitkeep
+avatar_rendering/motion/*
+!avatar_rendering/motion/.gitkeep
+avatar_rendering/output/*
+!avatar_rendering/output/.gitkeep
+avatar_rendering/common/utils/human_model_files/*
+!avatar_rendering/common/utils/human_model_files/.gitkeep
+!avatar_rendering/common/utils/human_model_files/README.md
+
+# Optional local third-party CUDA extension source trees
+third_party/pytorch3d/*
+third_party/diff-gaussian-rasterization-depth/*
+!third_party/.gitkeep

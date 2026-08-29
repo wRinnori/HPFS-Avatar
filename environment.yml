@@ -1,0 +1,22 @@
+# Unified runtime for the HPFS motion-generation stage and
+# the avatar-rendering stage (ExAvatar-based renderer).
+#
+# This environment intentionally follows the avatar-rendering CUDA/PyTorch stack,
+# because its CUDA extensions (PyTorch3D and diff_gaussian_rasterization_depth)
+# are stricter than the motion-generation code.
+name: hpfs-avatar
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip>=24
+  - git
+  - cmake
+  - ninja
+  - ffmpeg
+  - libglib
+  - libgl
+  - pip:
+      - -r requirements.txt

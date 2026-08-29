@@ -1,0 +1,52 @@
+# Core Python requirements for HPFS motion generation + ExAvatar-style rendering.
+# Install with: pip install -r requirements.txt
+--extra-index-url https://download.pytorch.org/whl/cu124
+
+# CUDA/PyTorch stack, matched to the working ExAvatar environment.
+torch==2.6.0+cu124
+torchvision==0.21.0+cu124
+torchaudio==2.6.0+cu124
+
+# Shared scientific stack.
+numpy==1.23.5
+scipy==1.15.2
+scikit-learn==1.6.1
+pandas==2.2.3
+torchmetrics==1.6.1
+transforms3d==0.4.2
+matplotlib==3.10.1
+Pillow==10.4.0
+opencv-python==4.10.0.84
+tqdm==4.67.1
+PyYAML==6.0.2
+easydict==1.13
+ConfigArgParse==1.7.1
+omegaconf==2.3.0
+
+# Motion-generation dependencies.
+einops==0.8.1
+h5py==3.8.0
+librosa==0.10.2.post1
+soundfile==0.13.1
+blobfile==2.0.2
+tensorboard==2.19.0
+timm==1.0.15
+
+# SMPL-X / rendering / visualization dependencies used by both stages.
+smplx==0.1.28
+pyrender==0.1.45
+trimesh==4.4.1
+PyOpenGL==3.1.0
+pyglet==1.5.27
+freetype-py==2.5.1
+lpips==0.1.4
+chumpy==0.70
+fvcore==0.1.5.post20221221
+iopath==0.1.10
+plyfile==1.1
+natsort==8.4.0
+termcolor==3.1.0
+humanfriendly==10.0
+pycocotools==2.0.8
+kornia==0.8.0
+scikit-image==0.22.0
