@@ -22,9 +22,9 @@ HPFS_NO_PART_LOSS_SRC=""
 # Avatar-rendering assets.
 HUMAN_SMPLX_SRC="/path/to/human_model_files/smplx"
 HUMAN_FLAME_SRC="/path/to/human_model_files/flame"
-SUBJECT_ID="00016"
-XHUMANS_SUBJECT_SRC="/path/to/XHumans/data/00016"
-AVATAR_ID="00016"
+SUBJECT_ID="00058"
+XHUMANS_SUBJECT_SRC="/path/to/XHumans/data/00058"
+AVATAR_ID="00058"
 AVATAR_BEST_SRC="/path/to/avatar/best.pth"
 
 link_force() {

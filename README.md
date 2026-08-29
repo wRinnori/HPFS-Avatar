@@ -38,6 +38,8 @@ bash scripts/install_avatar_cuda_extensions.sh
 python scripts/validate_hpfs_avatar_env.py --skip-avatar-probe
 ```
 
+With the provided PyTorch CUDA 12.4 environment, the extension build requires a matching CUDA 12.4 `nvcc`. The installer defaults to `TORCH_CUDA_ARCH_LIST=8.6` for NVIDIA A40 GPUs.
+
 ## 2. Data Preparation
 
 Download the required datasets and assets from the following sources:
@@ -61,6 +63,20 @@ avatar_rendering/common/utils/human_model_files/
 avatar_rendering/data/XHumans/data/<subject_id>/
 ```
 
+The avatar renderer expects the following licensed SMPL-X/FLAME files under `avatar_rendering/common/utils/human_model_files/`:
+
+```text
+smplx/SMPLX_NEUTRAL.npz
+smplx/SMPLX_MALE.npz
+smplx/SMPL-X__FLAME_vertex_ids.npy
+smplx/MANO_SMPLX_vertex_ids.pkl
+flame/FLAME_NEUTRAL.pkl
+flame/FLAME_texture.npz
+flame/flame_static_embedding.pkl
+flame/flame_dynamic_embedding.npy
+flame/2019/generic_model.pkl
+```
+
 For local use, edit the template below and create symbolic links instead of copying large files:
 
 ```bash
@@ -73,7 +89,7 @@ Check whether the local files are ready:
 
 ```bash
 python scripts/check_repro_assets.py --stage motion
-python scripts/check_repro_assets.py --stage avatar --subject-id 00016 --avatar-id 00016
+python scripts/check_repro_assets.py --stage avatar --subject-id 00058 --avatar-id 00058
 ```
 
 ## 3. Pretrained Checkpoints
@@ -89,6 +105,8 @@ avatar_rendering/output/model_dump/<avatar_id>/best.pth
 ```
 
 If the avatar checkpoint is downloaded with a subject-specific name, copy or rename it to `best.pth` under the corresponding `<avatar_id>` folder before testing.
+
+The released avatar-rendering demo checkpoint uses X-Humans subject `00058`; place it at `avatar_rendering/output/model_dump/00058/best.pth` and place the matching subject data at `avatar_rendering/data/XHumans/data/00058/`.
 
 The SMPL-X autoencoder checkpoint is trained following the autoencoder training code and FGD-style evaluation protocol of MMoFusion, using the 265-D SMPL-X pose-and-expression representation in `motion_generation/mydiffusion/configs/autoencoder_smplx.yml`. It is used only for feature-space evaluation metrics such as FGD, Diversity, and L1div.
 
@@ -111,14 +129,14 @@ motion_generation/mydiffusion/outputs/sample_dir_hpfs_final_whole/metrics_latest
 
 ### 4.2 Avatar Rendering
 
-Place the avatar checkpoint at `avatar_rendering/output/model_dump/<subject_id>/best.pth`, then run:
+Place the released avatar checkpoint at `avatar_rendering/output/model_dump/00058/best.pth` and the matching X-Humans subject data at `avatar_rendering/data/XHumans/data/00058/`, then run:
 
 ```bash
 cd /path/to/HPFS_Avatar/avatar_rendering/main
-CUDA_VISIBLE_DEVICES=0 python test.py --subject_id 00016 --test_epoch best
+CUDA_VISIBLE_DEVICES=0 python test.py --subject_id 00058 --test_epoch best
 ```
 
-Rendered test images and meshes are saved under `avatar_rendering/output/result/<subject_id>/test/`.
+Rendered test images and meshes are saved under `avatar_rendering/output/result/00058/test/`.
 
 ## 5. Train Motion Generation
 
@@ -173,7 +191,7 @@ Train an avatar on X-Humans:
 
 ```bash
 cd /path/to/HPFS_Avatar/avatar_rendering/main
-CUDA_VISIBLE_DEVICES=0 python train.py --subject_id 00016
+CUDA_VISIBLE_DEVICES=0 python train.py --subject_id 00058
 ```
 
 Convert generated HPFS SMPL-X `.npz` motion to the renderer motion format:
@@ -191,13 +209,13 @@ Render the avatar:
 ```bash
 cd /path/to/HPFS_Avatar/avatar_rendering/main
 CUDA_VISIBLE_DEVICES=0 python animate_hpfs.py \
-  --avatar_id 00016 \
-  --identity_id 00016 \
+  --avatar_id 00058 \
+  --identity_id 00058 \
   --test_epoch best \
   --motion_path ../motion/hpfs_demo \
-  --output_video ../output/result/hpfs_demo_00016.mp4 \
+  --output_video ../output/result/hpfs_demo_00058.mp4 \
   --render_mode avatar \
-  --save_frames_dir ../output/result/hpfs_demo_00016_frames
+  --save_frames_dir ../output/result/hpfs_demo_00058_frames
 ```
 
 For a quick smoke test, convert only 10 frames and render at low resolution:

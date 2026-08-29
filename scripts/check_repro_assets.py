@@ -63,8 +63,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--repo-root", default=str(Path(__file__).resolve().parents[1]))
     parser.add_argument("--stage", choices=["all", "motion", "avatar", "third_party"], default="all")
-    parser.add_argument("--subject-id", default="00016")
-    parser.add_argument("--avatar-id", default="00016")
+    parser.add_argument("--subject-id", default="00058")
+    parser.add_argument("--avatar-id", default="00058")
     args = parser.parse_args()
 
     root = Path(args.repo_root).resolve()
